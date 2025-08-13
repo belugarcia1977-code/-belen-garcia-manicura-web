@@ -3,19 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belén García - Productos de Manicura</title>
+    <title>Belén García - Productos de Manicura (Admin)</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
             color: #333;
             background-color: #ffffff;
+            display: none; /* Hidden by default until password is entered */
+        }
+        #password-prompt {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #password-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        #password-box h2 {
+            color: #E91E63;
+            margin-bottom: 20px;
+        }
+        #password-box input {
+            padding: 10px;
+            border: 2px solid #F8BBD9;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            width: 200px;
+        }
+        #password-box button {
+            background: #E91E63;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        #password-box button:hover {
+            background: #C2185B;
+        }
+        /* Existing styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         .container {
@@ -80,7 +125,8 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(248, 187, 217, 0.8), rgba(233, 30, 99, 0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23F8BBD9" width="1200" height="600"/><circle fill="%23E91E63" cx="200" cy="150" r="50" opacity="0.3"/><circle fill="%23E91E63" cx="800" cy="400" r="80" opacity="0.2"/><circle fill="%23ffffff" cx="1000" cy="200" r="60" opacity="0.4"/></svg>');
+            background: linear-gradient(rgba(248, 187, 217, 0.8), rgba(233, 30, 99, 0.8)), url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23F8BBD9" width="1200" height="600"/><circle fill="%23E91E63" cx="200" cy="150" r="50" opacity="0.3"/><circle fill="%23E91E63" cx="800" cy="400" r="80" opacity="0.2"/><circle fill="%23ffffff" cx="1000" cy="200" r="60" opacity="0.4"/></svg>\
+' );
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -416,6 +462,14 @@
     </style>
 </head>
 <body>
+    <div id="password-prompt">
+        <div id="password-box">
+            <h2>Acceso Restringido</h2>
+            <input type="password" id="password-input" placeholder="Contraseña">
+            <button onclick="checkPassword()">Entrar</button>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <nav class="container">
@@ -543,11 +597,13 @@
                 </div>
                 <div class="contact-item">
                     <h3>📍 Ubicación</h3>
-                    <p>Cardona, Soriano<br>Uruguay</p>
+                    <p>Cardona, Soriano  
+Uruguay</p>
                 </div>
                 <div class="contact-item">
                     <h3>🚚 Envíos</h3>
-                    <p>A todo el país<br>Pago por transferencia</p>
+                    <p>A todo el país  
+Pago por transferencia</p>
                 </div>
             </div>
         </div>
@@ -561,38 +617,58 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
+        // JavaScript Password Protection
+        const CORRECT_PASSWORD = "manicura2025"; // <-- CAMBIA ESTA CONTRASEÑA
 
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        function checkPassword( ) {
+            const enteredPassword = document.getElementById("password-input").value;
+            if (enteredPassword === CORRECT_PASSWORD) {
+                document.getElementById("password-prompt").style.display = "none";
+                document.body.style.display = "block";
+            } else {
+                alert("Contraseña incorrecta. Inténtalo de nuevo.");
+            }
+        }
+
+        // Listen for Enter key press on password input
+        document.getElementById("password-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("navLinks");
+
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
         });
 
         // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        document.querySelectorAll("a[href^=\"#\"]").forEach(anchor => {
+            anchor.addEventListener("click", function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const target = document.querySelector(this.getAttribute("href"));
                 if (target) {
                     target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                        behavior: "smooth",
+                        block: "start"
                     });
                 }
-                navLinks.classList.remove('active');
+                navLinks.classList.remove("active");
             });
         });
 
         // Image preview functionality
-        const productImage = document.getElementById('productImage');
-        const imagePreview = document.getElementById('imagePreview');
+        const productImage = document.getElementById("productImage");
+        const imagePreview = document.getElementById("imagePreview");
 
-        imagePreview.addEventListener('click', () => {
+        imagePreview.addEventListener("click", () => {
             productImage.click();
         });
 
-        productImage.addEventListener('change', function(e) {
+        productImage.addEventListener("change", function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -605,25 +681,25 @@
 
         // Add product functionality
         function addProduct() {
-            const name = document.getElementById('productName').value;
-            const price = document.getElementById('productPrice').value;
-            const description = document.getElementById('productDescription').value;
-            const imageFile = document.getElementById('productImage').files[0];
+            const name = document.getElementById("productName").value;
+            const price = document.getElementById("productPrice").value;
+            const description = document.getElementById("productDescription").value;
+            const imageFile = document.getElementById("productImage").files[0];
 
             if (!name || !price) {
-                alert('Por favor completa al menos el nombre y precio del producto.');
+                alert("Por favor completa al menos el nombre y precio del producto.");
                 return;
             }
 
-            const productsGrid = document.getElementById('productsGrid');
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card';
+            const productsGrid = document.getElementById("productsGrid");
+            const productCard = document.createElement("div");
+            productCard.className = "product-card";
 
             let imageContent = name;
             if (imageFile) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const img = productCard.querySelector('.product-image');
+                    const img = productCard.querySelector(".product-image");
                     img.innerHTML = `<img src="${e.target.result}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;">`;
                 };
                 reader.readAsDataURL(imageFile);
@@ -642,16 +718,16 @@
             productsGrid.appendChild(productCard);
 
             // Reset form
-            document.getElementById('productForm').reset();
+            document.getElementById("productForm").reset();
             imagePreview.innerHTML = '<span>Haz clic para subir imagen</span>';
 
             // Smooth scroll to new product
-            productCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            productCard.scrollIntoView({ behavior: "smooth", block: "center" });
         }
 
         // Delete product functionality
         function deleteProduct(button) {
-            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+            if (confirm("¿Estás seguro de que quieres eliminar este producto?")) {
                 button.parentElement.remove();
             }
         }
@@ -659,27 +735,27 @@
         // Save products to localStorage
         function saveProducts() {
             const products = [];
-            document.querySelectorAll('.product-card').forEach(card => {
-                const name = card.querySelector('.product-name').textContent;
-                const price = card.querySelector('.product-price').textContent;
-                const description = card.querySelector('.product-description').textContent;
-                const imageElement = card.querySelector('.product-image img');
+            document.querySelectorAll(".product-card").forEach(card => {
+                const name = card.querySelector(".product-name").textContent;
+                const price = card.querySelector(".product-price").textContent;
+                const description = card.querySelector(".product-description").textContent;
+                const imageElement = card.querySelector(".product-image img");
                 const image = imageElement ? imageElement.src : null;
                 
                 products.push({ name, price, description, image });
             });
-            localStorage.setItem('belenGarciaProducts', JSON.stringify(products));
+            localStorage.setItem("belenGarciaProducts", JSON.stringify(products));
         }
 
         // Load products from localStorage
         function loadProducts() {
-            const savedProducts = localStorage.getItem('belenGarciaProducts');
+            const savedProducts = localStorage.getItem("belenGarciaProducts");
             if (savedProducts) {
                 const products = JSON.parse(savedProducts);
-                const productsGrid = document.getElementById('productsGrid');
+                const productsGrid = document.getElementById("productsGrid");
                 
                 // Clear existing products except examples
-                const existingProducts = productsGrid.querySelectorAll('.product-card');
+                const existingProducts = productsGrid.querySelectorAll(".product-card");
                 existingProducts.forEach((product, index) => {
                     if (index >= 3) { // Keep first 3 example products
                         product.remove();
@@ -688,8 +764,8 @@
 
                 // Add saved products
                 products.slice(3).forEach(product => {
-                    const productCard = document.createElement('div');
-                    productCard.className = 'product-card';
+                    const productCard = document.createElement("div");
+                    productCard.className = "product-card";
                     
                     const imageContent = product.image ? 
                         `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">` : 
@@ -711,21 +787,20 @@
         }
 
         // Auto-save products when page is about to unload
-        window.addEventListener('beforeunload', saveProducts);
+        window.addEventListener("beforeunload", saveProducts);
 
         // Load products when page loads
-        window.addEventListener('load', loadProducts);
+        window.addEventListener("load", loadProducts);
 
         // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
+        window.addEventListener("scroll", () => {
+            const header = document.querySelector("header");
             if (window.scrollY > 100) {
-                header.style.background = 'rgba(233, 30, 99, 0.95)';
+                header.style.background = "rgba(233, 30, 99, 0.95)";
             } else {
-                header.style.background = 'linear-gradient(135deg, #F8BBD9, #E91E63)';
+                header.style.background = "linear-gradient(135deg, #F8BBD9, #E91E63)";
             }
         });
     </script>
 </body>
 </html>
-
