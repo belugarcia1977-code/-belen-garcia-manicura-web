@@ -10,7 +10,7 @@
             line-height: 1.6;
             color: #333;
             background-color: #ffffff;
-            display: none; /* Hidden by default until password is entered */
+            /* display: none; */ /* ¡Esta línea ha sido comentada para que el body no se oculte inicialmente! */
         }
         #password-prompt {
             position: fixed;
@@ -19,11 +19,25 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
+            display: flex; /* Asegura que el prompt se muestre */
             justify-content: center;
             align-items: center;
             z-index: 9999;
-       
+        }
+        #password-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        #password-box h2 {
+            color: #E91E63;
+            margin-bottom: 20px;
+        }
+        #password-box input {
+            padding: 10px;
+            border: 2px solid #F8BBD9;
             border-radius: 5px;
             font-size: 1rem;
             margin-bottom: 15px;
@@ -40,21 +54,7 @@
             transition: background 0.3s;
         }
         #password-box button:hover {
-            background: #C2185B; }
-        #password-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-        #password-box h2 {
-            color: #E91E63;
-            margin-bottom: 20px;
-        }
-        #password-box input {
-            padding: 10px;
-            border: 2px solid #F8BBD9;
+            background: #C2185B;
         }
         /* Existing styles */
         * {
@@ -125,8 +125,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(248, 187, 217, 0.8), rgba(233, 30, 99, 0.8)), url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23F8BBD9" width="1200" height="600"/><circle fill="%23E91E63" cx="200" cy="150" r="50" opacity="0.3"/><circle fill="%23E91E63" cx="800" cy="400" r="80" opacity="0.2"/><circle fill="%23ffffff" cx="1000" cy="200" r="60" opacity="0.4"/></svg>\
-' );
+            background: linear-gradient(rgba(248, 187, 217, 0.8), rgba(233, 30, 99, 0.8)), url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23F8BBD9" width="1200" height="600"/><circle fill="%23E91E63" cx="200" cy="150" r="50" opacity="0.3"/><circle fill="%23E91E63" cx="800" cy="400" r="80" opacity="0.2"/><circle fill="%23ffffff" cx="1000" cy="200" r="60" opacity="0.4"/></svg>\' );
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -620,7 +619,13 @@ Pago por transferencia</p>
         // JavaScript Password Protection
         const CORRECT_PASSWORD = "manicura2025"; // <-- CAMBIA ESTA CONTRASEÑA
 
-        function checkPassword( ) {
+        // Oculta el cuerpo de la página hasta que se ingrese la contraseña
+        document.addEventListener('DOMContentLoaded', (event ) => {
+            document.body.style.display = 'none';
+            document.getElementById('password-prompt').style.display = 'flex';
+        });
+
+        function checkPassword() {
             const enteredPassword = document.getElementById("password-input").value;
             if (enteredPassword === CORRECT_PASSWORD) {
                 document.getElementById("password-prompt").style.display = "none";
